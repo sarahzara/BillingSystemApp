@@ -227,6 +227,7 @@ public class InvoiceSalesActionListener implements ActionListener{
     
     //Open Header Dialog( OK ) Method
     private void NewInvoiceHeaderOK() {
+        try{
         headerDialog.setVisible(false);
         String customerName = headerDialog.getInvoicecustomerField().getText();
         String dateHeader = headerDialog.getInvoiceDateField().getText();
@@ -244,13 +245,17 @@ public class InvoiceSalesActionListener implements ActionListener{
         
         }
         invoiceNumber++ ;
-        SalesInvoiceHeader invoiceheader = new SalesInvoiceHeader(0, customerName , date);
+        SalesInvoiceHeader invoiceheader = new SalesInvoiceHeader(invoiceNumber, customerName , date);
         frame.getInvoicesArray().add(invoiceheader);
         frame.getSalesHeaderTable().fireTableDataChanged();
         headerDialog.dispose();
         headerDialog =null; 
         
          System.out.println("you click **YES** ADD new invoice ");
+         
+          }catch (NullPointerException ex){
+            JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error in OK message", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
     
@@ -263,7 +268,7 @@ public class InvoiceSalesActionListener implements ActionListener{
          
     }
   
-     // Open Line Dialog ( ok ) Method
+     // Open Line Dialog ( cancel) Method
     private void NewInvoiceLineCancel() {
          lineDialog.setVisible(false);
          lineDialog.dispose();
@@ -273,8 +278,9 @@ public class InvoiceSalesActionListener implements ActionListener{
 
     }
     
-     // Open Line Dialog ( cancel ) Method
+     // Open Line Dialog ( ok ) Method
     private void NewInvoiceLineOK() {
+        try{
         lineDialog.setVisible(false);
         
         String lineName = lineDialog.getInvoiceNameField().getText();
@@ -311,6 +317,10 @@ public class InvoiceSalesActionListener implements ActionListener{
          frame.getInvoiceTable().setRowSelectionInterval(invoiceHeader, invoiceHeader);
          lineDialog.dispose();
          lineDialog = null ;
+         
+        }catch (IllegalArgumentException ex){
+            JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
         
         
     }
